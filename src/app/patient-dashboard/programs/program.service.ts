@@ -77,12 +77,13 @@ export class ProgramService {
   }
 
   public createEnrollmentPayload(program, patient, dateEnrolled, dateCompleted,
-                                 locationUuid, enrollmentUuid): any {
+                                 locationUuid, enrollmentUuid, outcome): any {
     let payLoad = {
       patient: patient.person.uuid,
       program: program,
       dateEnrolled: dateEnrolled,
       uuid: enrollmentUuid,
+      outcome: outcome,
       dateCompleted: dateCompleted,
       location: locationUuid
     };

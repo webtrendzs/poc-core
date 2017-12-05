@@ -53,7 +53,7 @@
         <div class="col-md-6 col-xs-12 col-sm-6">
           <label>Transfer Type:</label>
           <select class="form-control" [(ngModel)]="transferType"
-                  (ngModelChange)="toggleLocationSelect($event)">
+                  (ngModelChange)="toggleConditionalFields($event)">
             <option [value]="'AMPATH'">AMPATH</option>
             <option [value]="'NON-AMPATH'">Non-AMPATH</option>
             <option [value]="'DISCHARGE'">Discharge</option>
@@ -66,6 +66,14 @@
           <location-filter class="transfer-care" [showLabel]="false"
                            (onLocationChange)="getSelectedLocation($event); false"
                            [disable-county]="true"></location-filter>
+        </div>
+      </div>
+      <div class="input-group_" *ngIf="showDischargeReasons">
+        <div class="col-md-6 col-xs-12 col-sm-62">
+          <label>Reason for Discharge:</label>
+          <select class="form-control" [(ngModel)]="dischargeReasonId">
+            <option *ngFor="let reason of dischargeReasonAnswers" value="{{reason.value}}">{{reason.label}}</option>
+          </select>
         </div>
       </div>
       <div class="input-group_">

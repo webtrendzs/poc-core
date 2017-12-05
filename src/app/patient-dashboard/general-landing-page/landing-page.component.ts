@@ -112,7 +112,7 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
       }
       payload = this.programService.createEnrollmentPayload(
         row.program.uuid, this.patient, row.dateEnrolled, row.dateCompleted, location,
-        row.enrolledProgram.uuid);
+        row.enrolledProgram.uuid, null);
       if (payload) {
         setTimeout(() => {
           this._updatePatientProgramEnrollment(payload);
@@ -132,7 +132,7 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
        if (this.isValidForm({dateEnrolled: this.dateEnrolled, dateCompleted: this.dateCompleted})) {
        payload = this.programService.createEnrollmentPayload(
         this.program, this.patient, this.dateEnrolled,
-        this.dateCompleted, this.selectedLocation.locations, '');
+        this.dateCompleted, this.selectedLocation.locations, '', null);
        if (payload) {
            this._updatePatientProgramEnrollment(payload);
       }

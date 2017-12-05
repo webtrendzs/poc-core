@@ -126,7 +126,7 @@ describe('Service: ProgramService', () => {
         dateEnrolled = new Date('Mon Feb 13 2017 11:40:31'),
         dateCompleted = undefined, locationUuid = 'location-uuid', enrollmentUuid = '';
       let payload = service.createEnrollmentPayload(program, patient,
-        dateEnrolled, dateCompleted, locationUuid, enrollmentUuid);
+        dateEnrolled, dateCompleted, locationUuid, enrollmentUuid, null);
       if (payload) {
         expect(payload.program).toEqual('program-uuid');
         expect(payload.patient).toEqual('person-uuid');
@@ -145,7 +145,7 @@ describe('Service: ProgramService', () => {
         dateCompleted = new Date('Mon Feb 13 2017 11:40:31'),
         locationUuid = 'location-uuid', enrollmentUuid = 'enrollment-uuid';
       let payload = service.createEnrollmentPayload(program, patient,
-        dateEnrolled, dateCompleted, locationUuid, enrollmentUuid);
+        dateEnrolled, dateCompleted, locationUuid, enrollmentUuid, null);
       if (payload) {
         expect(payload.program).toEqual(undefined);
         expect(payload.patient).toEqual(undefined);
@@ -163,7 +163,7 @@ describe('Service: ProgramService', () => {
       dateCompleted = new Date('Mon Feb 13 2017 11:40:31'),
       locationUuid = 'location-uuid', enrollmentUuid = 'enrollment-uuid';
     let payload = service.createEnrollmentPayload(program, patient,
-      dateEnrolled, dateCompleted, locationUuid, enrollmentUuid);
+      dateEnrolled, dateCompleted, locationUuid, enrollmentUuid, null);
 
     let enrollmement = service.saveUpdateProgramEnrollment(payload);
     enrollmement.subscribe((results) => {

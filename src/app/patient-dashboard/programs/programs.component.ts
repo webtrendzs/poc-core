@@ -101,7 +101,7 @@ export class ProgramsComponent implements OnInit, OnDestroy {
           this.selectedLocation);
     payload = this.programService.createEnrollmentPayload(
     this.program, this.patient, this.dateEnrolled, this.dateCompleted,
-    this.selectedLocation, this.enrollmentUuid);
+    this.selectedLocation, this.enrollmentUuid, null);
 
     if (isFormValid === true && payload) {
       this.subscribeToEnrollmentChangeEvent(payload);

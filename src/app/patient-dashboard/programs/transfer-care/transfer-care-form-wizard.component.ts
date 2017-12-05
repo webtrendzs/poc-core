@@ -77,6 +77,7 @@ export class ProgramsTransferCareFormWizardComponent implements OnInit, OnDestro
 
   private _init() {
     this.transferCareService.getPayload().takeUntil(this.ngUnsubscribe).subscribe((payload) => {
+      console.log('payload', payload);
       this.transferCareService.setTransferStatus(false);
       if (!payload) {
         if (this.isModal) {
@@ -127,7 +128,9 @@ export class ProgramsTransferCareFormWizardComponent implements OnInit, OnDestro
     this.hasError = false;
     if (this.transferType === 'AMPATH') {
       this._transferPatient(_.map(payload.programs, (p) => {
-        return _.extend(p, {location: payload.location ? payload.location : {}});
+        return _.extend(p, {
+          location: payload.location ? payload.location : {}
+        });
       }));
     } else {
       this.transferCareService.fetchAllProgramTransferConfigs().takeUntil(this.ngUnsubscribe)
@@ -180,6 +183,7 @@ export class ProgramsTransferCareFormWizardComponent implements OnInit, OnDestro
 
   private _transformProgram(program, payload, encounterTypeUuids): void {
     _.extend(program, {
+      outcomeConceptUuid: payload.outcomeConceptUuid,
       location: payload.location ? payload.location : {},
       hasForms: (_.xor(program.encounterForms, this.lastDischargeEncounters)).length > 0,
       excludedForms: _.xor(_.xor(program.encounterForms, this.lastDischargeEncounters),

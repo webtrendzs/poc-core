@@ -11,6 +11,9 @@ import { ProgramsTransferCareService } from './transfer-care.service';
 import { PatientProgramService } from '../patient-programs.service';
 import { DepartmentProgramsConfigService } from
 './../../../etl-api/department-programs-config.service';
+import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { ConceptResourceService } from '../../../openmrs-api/concept-resource.service';
 
 @Component({
   selector: 'app-programs-transfer-care',
@@ -24,12 +27,15 @@ export class ProgramsTransferCareComponent implements OnInit, OnDestroy {
   public showFormWizard: EventEmitter<any> = new EventEmitter();
   public department: string;
   public transferType: string;
+  public dischargeReasonId: string;
   public dateOfTransfer: Date;
   public transferToLocation: any;
   public currentDepartmentEnrollments: any[] = [];
   public programDepartments: any = [];
+  public dischargeReasonAnswers: any = [];
   public transferAll: boolean = false;
   public showLocationSelect: boolean = false;
+  public showDischargeReasons: boolean = false;
   public hasTransferError: boolean = false;
   public programsToTransfer: any[] = [];
   private departmentConf: any[];
@@ -40,6 +46,7 @@ export class ProgramsTransferCareComponent implements OnInit, OnDestroy {
               private route: ActivatedRoute,
               private patientService: PatientService,
               private patientProgramService: PatientProgramService,
+              private conceptResourceService: ConceptResourceService,
               private departmentProgramService: DepartmentProgramsConfigService) {
   }
 
@@ -55,13 +62,17 @@ export class ProgramsTransferCareComponent implements OnInit, OnDestroy {
 
   public getDepartmentConf() {
 
-     this.departmentProgramService.getDartmentProgramsConfig()
-     .subscribe((results) => {
-         if (results) {
-              this.departmentConf = results;
-              this._filterDepartmentConfigByName();
-          }
-     });
+    this.dischargeReasons().subscribe((reasons) => {
+      this.dischargeReasonAnswers = reasons;
+    });
+
+    this.departmentProgramService.getDartmentProgramsConfig()
+      .subscribe((results) => {
+        if (results) {
+          this.departmentConf = results;
+          this._filterDepartmentConfigByName();
+        }
+      });
 
   }
 
@@ -86,9 +97,10 @@ export class ProgramsTransferCareComponent implements OnInit, OnDestroy {
     this._setSelectedProgramsForTransfer();
   }
 
-  public toggleLocationSelect(transferType: string) {
+  public toggleConditionalFields(transferType: string) {
     this.transferType = transferType;
     this.showLocationSelect = this.transferType === 'AMPATH';
+    this.showDischargeReasons = this.transferType === 'DISCHARGE';
   }
 
   public getSelectedLocation(location: any) {
@@ -112,11 +124,39 @@ export class ProgramsTransferCareComponent implements OnInit, OnDestroy {
       if (this.transferToLocation) {
         _.extend(payLoad, {location: this.transferToLocation});
       }
+      _.extend(payLoad, {
+        outcomeConceptUuid: this.dischargeReasonId ? this.dischargeReasonId : null
+      });
       this.transferCareService.savePayload(payLoad);
       this._goToFormWizard();
     } else {
       this.hasTransferError = true;
     }
+  }
+
+  public dischargeReasons(): Observable<any> {
+    let conceptResult: BehaviorSubject<any> = new BehaviorSubject<any>({});
+    let v = 'custom:(uuid,name,answers)';
+    // 	PATIENT CARE STATUS
+    let conceptUuid = '7c579743-5ef7-4e2c-839f-5b95597cb01c';
+    this.conceptResourceService.getConceptByUuid(conceptUuid, true, v)
+      .subscribe((result) => {
+        let mappedConcepts = this._mapConcepts(result.answers);
+        conceptResult.next(mappedConcepts);
+      }, (error) => {
+        conceptResult.error(error);
+      });
+    return conceptResult.asObservable();
+  }
+
+  private _mapConcepts(concepts) {
+    let mappedConcepts = concepts.map((concept) => {
+      return {
+        value: concept.uuid,
+        label: concept.name.display
+      };
+    });
+    return mappedConcepts;
   }
 
   private _goToFormWizard() {

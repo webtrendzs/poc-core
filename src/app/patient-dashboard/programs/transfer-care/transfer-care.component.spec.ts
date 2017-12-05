@@ -24,6 +24,8 @@ import { DepartmentProgramsConfigService } from
 './../../../etl-api/department-programs-config.service';
 import { DataCacheService } from './../../../shared/services/data-cache.service';
 import { CacheService } from 'ionic-cache';
+import { ConceptResourceService } from '../../../openmrs-api/concept-resource.service';
+import { Observable } from 'rxjs/Observable';
 class MockRouter {
   public navigate = jasmine.createSpy('navigate');
 }
@@ -35,6 +37,7 @@ describe('Component: ProgramsTransferCareComponent', () => {
       providers: [
         PatientService,
         ProgramService,
+        ConceptResourceService,
         DepartmentProgramsConfigService,
         DataCacheService,
         CacheService,
@@ -102,6 +105,12 @@ describe('Component: ProgramsTransferCareComponent', () => {
       fakeAsync((patientProgramService, patientService, departmentProgramsConfigService,
                  mockBackend) => {
         spyOn(component, 'getSelectedDepartment').and.callThrough();
+        spyOn(component, 'dischargeReasons').and.callFake(() => {
+          return Observable.of([{
+            value: '1',
+            label: 'label'
+          }]);
+        });
         let uuid: string = 'uuid';
         let patientObject: Patient = new Patient({uuid: uuid, encounters: []});
 

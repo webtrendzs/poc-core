@@ -79,12 +79,12 @@ export class ProgramsTransferCareService {
         program.enrolledProgram.location.uuid : null;
       let unenrollPayload = this.programService.createEnrollmentPayload(
         program.programUuid, patient, program.dateEnrolled,
-        program.transferDate, location , program.enrolledProgram.uuid);
+        program.transferDate, location , program.enrolledProgram.uuid, program.outcomeConceptUuid);
       // if intra-ampath, unenroll and enroll in the new location
       if (program.transferType === 'AMPATH') {
         let enrollPayload = this.programService.createEnrollmentPayload(
           program.programUuid, patient, program.transferDate, null,
-          program.location.locations, '');
+          program.location.locations, '', program.outcome_concept_uuid);
         programBatch.push(this.programService.saveUpdateProgramEnrollment(unenrollPayload));
         programBatch.push(this.programService.saveUpdateProgramEnrollment(enrollPayload));
       } else {
