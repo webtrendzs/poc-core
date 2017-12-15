@@ -1,8 +1,60 @@
-##OpenMRS Point of Care System Version
+# OpenMRS Point of Care System
+This is a demo repo to show how we can go about collaboration. Its an idea for now.
 
-### Quick start
+Each organization will have their own repo. For example Ampath will have [https://github.com/AMPATH/ampath-poc.git](https://github.com/webtrendzs/ampath-poc.git).
+
+We will have the shared code in its on repo [https://github.com/webtrendzs/poc-shared.git](https://github.com/webtrendzs/poc-shared.git)
+
+We will also have the core in its on repo(this repo). A production build will be made out of this core repo that will consume organizational repo and the shared repo as packages.
+
+## Quick start
 **Make sure you have Node version >= 5.0 and NPM >= 3**
 
+### Shared repo
+```bash
+# clone poc-shared repo
+# --depth 1 removes all but one .git commit history
+git clone --depth 1 https://github.com/webtrendzs/poc-shared.git
+
+# change directory to poc-shared
+cd poc-shared
+
+# install the repo with npm
+npm install
+
+# build the repo
+npm build
+
+# create a npm symlink for local development
+# this will create a symlink `poc-shared`
+npm link
+
+```
+### Organizational repo
+```bash
+# clone ampath-poc repo
+# --depth 1 removes all but one .git commit history
+git clone --depth 1 https://github.com/webtrendzs/ampath-poc.git
+
+# change directory to ampath-poc repo
+cd ampath-poc
+
+# install the repo with npm
+npm install
+
+# build the repo
+npm build
+
+# create a npm symlink for local development
+# this will create a symlink `ampath-poc`
+npm link
+
+# link with poc-shared package through the symlink
+npm link poc-shared
+
+```
+
+### Core repo
 ```bash
 # clone our repo
 # --depth 1 removes all but one .git commit history
@@ -14,11 +66,19 @@ cd poc-core
 # install the repo with npm
 npm install
 
-# start the server
+# update ampath-poc and poc-shared symlinks in the core repo
+# rem this will make the production build hence it needs all the packages
+npm link ampath-poc
+npm link poc-shared
+
+# start the app
 npm start
 
 ```
-go to [http://localhost:3000](http://localhost:3000) in your browser
+
+Go to [http://localhost:3000](http://localhost:3000) in your browser.
+
+**When you make changes to poc-shared or ampath-poc, make sure run `npm build` so that the changes can reflect in poc-core**
 
 # Table of Contents
 * [File Structure](#file-structure)
