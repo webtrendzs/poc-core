@@ -12,35 +12,6 @@
   </title>
   <link rel="stylesheet" href="./assets/css/bootstrap.min.css"/>
   <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico"/>
-  <link href="./assets/css/material.font.css" rel="stylesheet">
-     <script src="./assets/rgbcolor/index.js"></script>
-    <script src="./assets/StackBlur/StackBlur.js"></script>
-    <script src="./assets/canvg/dist/canvg.js"></script>
-  <!-- <link rel="stylesheet" href="./assets/app.css"/> -->
-
-  <!-- Piwik: currently pointing to NG2-AMRS-Localhost on test1.ampath.or.ke/piwik -->
-  <script type="text/javascript">
-    var _paq = _paq || [];
-    _paq.push(["setDomains", ["*.localhost"]]);
-    _paq.push(['trackPageView']);
-    _paq.push(['enableLinkTracking']);
-    (function () {
-      var u = "//test1.ampath.or.ke/piwik/";
-      _paq.push(['setTrackerUrl', u + 'piwik.php']);
-      _paq.push(['setSiteId', '4']);
-      var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
-      g.type = 'text/javascript';
-      g.async = true;
-      g.defer = true;
-      g.src = u + 'piwik.js';
-      s.parentNode.insertBefore(g, s);
-    })();
-  </script>
-  <script type="text/javascript">
-    window.onbeforeunload = function() {
-      return "Are you sure you want to exit the page?";
-    }
-  </script>
   <style>
     html, body, app, .app-loader {
       height: 100%;
@@ -147,13 +118,6 @@
     }
   </style>
 
-  <noscript>
-    <p>
-      <img src="//test1.ampath.or.ke/piwik/piwik.php?idsite=4" style="border:0;" alt=""/></p>
-  </noscript>
-  <!-- End Piwik Code -->
-
-
   <% if (webpackConfig.htmlElements.headTags) { %>
   <!-- Configured Head Tags  -->
   <%= webpackConfig.htmlElements.headTags %>
@@ -168,21 +132,6 @@
 <body class="hold-transition skin-black-light fixed sidebar-mini sidebar-collapse">
 
 <app-root>
-  <div class="app-loader">
-    <div class="app-loader-center">
-      <div class="app-loader-center-wrapper">
-        <div class="app-loader-spinner">
-          <div class="double-bounce1"></div>
-          <div class="double-bounce2"></div>
-          <div class="double-bounce3"></div>
-        </div>
-        <div class="app-loader-logo-man">&nbsp;</div>
-        <div class="app-loader-logo">
-          <img src="./assets/img/ampath.png"/>
-        </div>
-      </div>
-    </div>
-  </div>
 </app-root>
 <% if (htmlWebpackPlugin.options.isDevServer && htmlWebpackPlugin.options.HMR !== true) { %>
 <!-- Webpack Dev Server reload -->

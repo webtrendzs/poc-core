@@ -22,7 +22,6 @@ const ENV = process.env.ENV = process.env.NODE_ENV = 'development';
 const HOST = process.env.HOST || 'localhost';
 const PORT = process.env.PORT || 3000;
 const HMR = helpers.hasProcessFlag('hot');
-const AgGridLicence = process.env.AgGridLicence;
 const METADATA = webpackMerge(commonConfig({ env: ENV }).metadata, {
   host: HOST,
   port: PORT,
@@ -136,12 +135,10 @@ module.exports = function (options) {
       new DefinePlugin({
         'ENV': JSON.stringify(METADATA.ENV),
         'HMR': METADATA.HMR,
-        'AgGridLicence': JSON.stringify(METADATA.AgGridLicence),
         'process.env': {
           'ENV': JSON.stringify(METADATA.ENV),
           'NODE_ENV': JSON.stringify(METADATA.ENV),
-          'HMR': METADATA.HMR,
-          'AgGridLicence': JSON.stringify(METADATA.AgGridLicence),
+          'HMR': METADATA.HMR
         }
       }),
 

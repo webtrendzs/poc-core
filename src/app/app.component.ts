@@ -1,9 +1,6 @@
 import { Component, ViewEncapsulation, OnInit } from '@angular/core';
+import { TickTockService } from 'poc-shared/dist';
 
-import { AppState } from './app.service';
-import { LicenseManager } from 'ag-grid-enterprise/main';
-import { DataCacheService } from './shared/services/data-cache.service';
-declare const AgGridLicence: any;
 @Component({
   selector: 'app-root',
   encapsulation: ViewEncapsulation.None,
@@ -12,20 +9,13 @@ declare const AgGridLicence: any;
 })
 export class AppComponent implements OnInit {
   public title = 'Ampath POC';
-  private routes: any[];
-  constructor(public appState: AppState, public dataCache: DataCacheService) {
-    this.setUpAgGridLicense();
+  public momentTime: string;
+  constructor(private ticktockService: TickTockService) {
   }
 
   public ngOnInit() {
-    this.dataCache.setDefaulTime(60 * 5);
-    this.dataCache.clearExpired();
-  }
-
-  public setUpAgGridLicense() {
-    if (AgGridLicence) {
-      // console.error('AG Grid License', AgGridLicence);
-      LicenseManager.setLicenseKey(AgGridLicence);
-    }
+    this.ticktockService.momentTime().subscribe((momentTime) => {
+      this.momentTime = momentTime;
+    })
   }
 }
