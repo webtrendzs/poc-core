@@ -81,6 +81,8 @@ Go to [http://localhost:3000](http://localhost:3000) in your browser.
 
 **When you make changes to poc-shared or ampath-poc, make sure run `npm build` so that the changes can reflect in poc-core**
 
+Below are seed specific settings you may not need for now. But good for your dev guidance
+
 # Table of Contents
 * [File Structure](#file-structure)
 * [Getting Started](#getting-started)
