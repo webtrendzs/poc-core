@@ -56,11 +56,11 @@ npm link poc-shared
 
 ### Core repo
 ```bash
-# clone our repo
+# clone poc-core repo
 # --depth 1 removes all but one .git commit history
 git clone --depth 1 https://github.com/webtrendzs/poc-core.git
 
-# change directory to our repo
+# change directory to poc-core repo
 cd poc-core
 
 # install the repo with npm
@@ -68,6 +68,7 @@ npm install
 
 # update ampath-poc and poc-shared symlinks in the core repo
 # rem this will make the production build hence it needs all the packages
+# this is the same as doing `npm install ampath-poc` only that your package is local hence the use of symlinks
 npm link ampath-poc
 npm link poc-shared
 
